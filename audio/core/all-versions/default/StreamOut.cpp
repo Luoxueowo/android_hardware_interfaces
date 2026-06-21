@@ -729,6 +729,7 @@ Return<Result> StreamOut::setPlaybackRateParameters(const PlaybackRate& playback
 }
 
 Return<Result> StreamOut::setEventCallback(const sp<IStreamOutEventCallback>& callback) {
+    if (mDevice->version() < AUDIO_DEVICE_API_VERSION_3_2) return Result::NOT_SUPPORTED;
     if (mStream->set_event_callback == nullptr) return Result::NOT_SUPPORTED;
     int result = mStream->set_event_callback(mStream, StreamOut::asyncEventCallback, this);
     if (result == 0) {
